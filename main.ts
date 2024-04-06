@@ -1,7 +1,7 @@
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (controlType == 0) {
-        if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-            mySprite.vy += -150
+        if (mySprite.isHittingTile(CollisionDirection.Bottom) || (mySprite.tileKindAt(TileDirection.Left, assets.tile`WallJump`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`WallJumpInv`))) {
+            mySprite.vy = -150
         }
     }
 })
@@ -15,8 +15,8 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (controlType == 1) {
-        if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-            mySprite.vy += -150
+        if (mySprite.isHittingTile(CollisionDirection.Bottom) || (mySprite.tileKindAt(TileDirection.Left, assets.tile`WallJump`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`WallJumpInv`))) {
+            mySprite.vy = -150
         }
     }
 })
@@ -55,13 +55,22 @@ function progress () {
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 7))
     } else if (levels == 4) {
         tiles.setCurrentTilemap(tilemap`Level 4`)
-        tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 8))
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 10))
     } else if (levels == 5) {
         tiles.setCurrentTilemap(tilemap`Level 5`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
     } else if (levels == 6) {
         tiles.setCurrentTilemap(tilemap`Level 6`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 12))
+    } else if (levels == 7) {
+        tiles.setCurrentTilemap(tilemap`Level 7`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 11))
+    } else if (levels == 8) {
+        tiles.setCurrentTilemap(tilemap`Level 8`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 14))
+    } else if (levels == 9) {
+        tiles.setCurrentTilemap(tilemap`Level 9`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 15))
     } else {
         game.gameOver(true)
     }
@@ -150,6 +159,12 @@ forever(function () {
         tiles.setWallAt(value, true)
     }
     for (let value of tiles.getTilesByType(assets.tile`DangerInv`)) {
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`WallJump`)) {
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`WallJumpInv`)) {
         tiles.setWallAt(value, true)
     }
 })
