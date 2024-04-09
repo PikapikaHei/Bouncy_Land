@@ -1,3 +1,14 @@
+scene.onOverlapTile(SpriteKind.Player, assets.tile`Lock`, function (sprite, location) {
+    if (key > 0) {
+        tiles.setTileAt(location, assets.tile`transparency16`)
+        key += -1
+        lock.push(location)
+    } else {
+        levels += -1
+        progress()
+        music.play(music.createSoundEffect(WaveShape.Sawtooth, 600, 200, 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+    }
+})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (controlType == 0) {
         if (mySprite.isHittingTile(CollisionDirection.Bottom) || (mySprite.tileKindAt(TileDirection.Left, assets.tile`WallJump`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`WallJumpInv`))) {
@@ -31,6 +42,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`Checkpoint0`, function (sprite, location) {
+    for (let value of tiles.getTilesByType(assets.tile`Checkpoint`)) {
+        tiles.setTileAt(value, assets.tile`Checkpoint0`)
+    }
+    tiles.setTileAt(location, assets.tile`Checkpoint`)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`Slowing`, function (sprite, location) {
     if (pauseRecord == 0) {
         tmpRecord = mySprite.vy / 5
@@ -39,7 +56,15 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`Slowing`, function (sprite, l
     mySprite.vy = tmpRecord
     mySprite.startEffect(effects.bubbles, 500)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`Key`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`KeyCollected`)
+    key += 1
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`Flag`, function (sprite, location) {
+    checkpoint = []
+    keyCheck = []
+    lock = []
+    key = 0
     progress()
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -57,6 +82,8 @@ function progress () {
     velocityRecordInv = 0
     downDone = 0
     levels += 1
+    checkpoint = tiles.getTilesByType(assets.tile`Checkpoint`)
+    keyCheck = tiles.getTilesByType(assets.tile`KeyCollected`)
     if (levels == 1) {
         tiles.setCurrentTilemap(tilemap`Level 1`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 14))
@@ -75,7 +102,7 @@ function progress () {
         tiles.setCurrentTilemap(tilemap`Level 5`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
         game.setDialogTextColor(4)
-        game.showLongText("Yellow Tile slows.", DialogLayout.Bottom)
+        game.showLongText("Yellow Tile slows you down without using current velocity.", DialogLayout.Bottom)
     } else if (levels == 6) {
         tiles.setCurrentTilemap(tilemap`Level 6`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 12))
@@ -83,7 +110,7 @@ function progress () {
         tiles.setCurrentTilemap(tilemap`Level 7`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 11))
         game.setDialogTextColor(6)
-        game.showLongText("Teal Gel sticks.", DialogLayout.Bottom)
+        game.showLongText("Teal Gel allow wall jump.", DialogLayout.Bottom)
     } else if (levels == 8) {
         tiles.setCurrentTilemap(tilemap`Level 8`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 14))
@@ -95,9 +122,22 @@ function progress () {
         tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 16))
         game.setDialogTextColor(8)
         game.showLongText("Arrow Tile set double jump limit to 1 time. Purple Gel resets that.", DialogLayout.Bottom)
+    } else if (levels == 11) {
+        tiles.setCurrentTilemap(tilemap`Level 11`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 27))
     } else {
         game.gameOver(true)
     }
+    for (let value of checkpoint) {
+        tiles.setTileAt(value, assets.tile`Checkpoint`)
+    }
+    for (let value of keyCheck) {
+        tiles.setTileAt(value, assets.tile`KeyCollected`)
+    }
+    for (let value of lock) {
+        tiles.setTileAt(value, assets.tile`transparency16`)
+    }
+    tiles.placeOnRandomTile(mySprite, assets.tile`Checkpoint`)
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`Double Switch`, function (sprite, location) {
     doubleJump = 1
@@ -114,10 +154,14 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`transparency16`, function (sp
 })
 let velocityRecordInv = 0
 let velocityRecord = 0
+let keyCheck: tiles.Location[] = []
+let checkpoint: tiles.Location[] = []
 let tmpRecord = 0
 let pauseRecord = 0
 let downDone = 0
 let doubleJump = 0
+let lock: tiles.Location[] = []
+let key = 0
 let levels = 0
 let mySprite: Sprite = null
 let controlType = 0
