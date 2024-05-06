@@ -1,5 +1,5 @@
 {
-    "name": "Bouncy Land",
+    "name": "Bouncy Land v.1.0.0",
     "version": "0.2.2",
     "description": "",
     "dependencies": {
@@ -20,7 +20,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.49",
+        "target": "1.12.51",
         "targetId": "arcade"
     },
     "supportedTargets": [

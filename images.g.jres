@@ -4,6 +4,21 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "You"
     },
+    "image2": {
+        "data": "hwQQABAAAADd3d3d3d3d3d0RERERERHdHR0RERER0dEd0REREREd0R0RHRER0RHRHRHREREdEdEdEREd0RER0R0REdEdERHRHRER0R0REdEdEREd0RER0R0R0RERHRHRHREdERHREdEd0REREREd0R0dEREREdHR3REREREREd3d3d3d3d3d3Q==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "YouExample"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAzMzMzMzMzMzNVVVVVVVUzU1NVVVVVNTVTNVVVVVVTNVNVU1VVNVU1U1U1VVVTVTVTVVVTNVVVNVNVVTVTVVU1U1VVNVNVVTVTVVVTNVVVNVNVNVVVU1U1U1VTVVU1VTVTNVVVVVVTNVNTVVVVVTU1M1VVVVVVVTMzMzMzMzMzMw==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "You2"
+    },
+    "image3": {
+        "data": "hwQQABAAAACqqqqqqqqqqqpVVVVVVVWqWlpVVVVVpaVapVVVVVVapVpVWlVVpVWlWlWlVVVaVaVaVVVapVVVpVpVVaVaVVWlWlVVpVpVVaVaVVVapVVVpVpVpVVVWlWlWlVaVVWlVaVapVVVVVVapVpaVVVVVaWlqlVVVVVVVaqqqqqqqqqqqg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "YouDash"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
